@@ -1,0 +1,3 @@
+Test Run 1:
+Failed!
+Due to a major bug in my while loop of the menu (i somehow didnt see it), it incorrectly saved and ended my program each instance of RAM, prematurely saving data to the file. Therefore the file ended up corrupted. The exported report and the text file has been corrupted with some invalid characters due to the bug. However, the functionality seems to work as far as I can see. Will fix in test run 2.
