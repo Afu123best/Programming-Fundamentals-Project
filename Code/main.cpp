@@ -116,6 +116,9 @@ void display_student(int index) {
     cout << "Quiz1: " << quizzes[index][0] << "\n";
     cout << "Quiz2: " << quizzes[index][1] << "\n";
     cout << "Quiz3: " << quizzes[index][2] << "\n";
+    cout << "Assignment1: " << assignments[index][0] << "\n";
+    cout << "Assignment2: " << assignments[index][1] << "\n";
+    
     cout << "Midterm: " << midterm[index] << "\n";
     cout << "Final: " << final[index] << "\n";
 
