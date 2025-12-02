@@ -28,6 +28,29 @@ const int total_maximum_marks = (3*10) + (2*10) + 50 + 100; //=200
 //INPUT VALIDATION FUNCTIONS START FROM HERE
 
 //SAFE INTEGER FROM USER (letter input pr masla na karay)
+
+void input_valid_name(char arr[], int size){
+    while (true){
+        cin.getline(arr,size);
+        if (strlen(arr) == 0 || strspn(arr," ") == strlen(arr)){
+            cout << "Invalid. Name cannot be empty. Enter again: ";
+            continue;
+        }
+        bool valid = true;
+        for (int i = 0; arr[i] != '\0'; i++){
+            if (!isalpha(arr[i]) && arr[i] != ' '){
+                valid = false;
+                break;
+            }
+        }
+        if (!valid){
+            cout << "Invalid name. Only letters and spaces are allowed. Enter again: ";
+            continue;
+        }
+        return;
+    }
+}
+
 int input_int_safe(){
     int x;
     while (true){
@@ -189,6 +212,10 @@ void sort_by_percentage_desc() {
 
 //SEARCH BY ROLL NUMBER (RETURNS -1 IF NOT FOUND)
 int search_student_by_roll() {
+    if (student_count == 0){
+        cout << "No students available.\n";
+        return -1;
+    }
     int entered_roll_num;
     cout << "Enter roll number: ";
     cin >> entered_roll_num;
@@ -230,7 +257,7 @@ void add_student(){
     
     cout << "Enter student name: ";
     cin.ignore(10000,'\n');
-    cin.getline(name[index],50);
+    input_valid_name(name[index], 50);
     
     cout << "Enter student roll number: ";
     roll_num[index] = input_valid_roll();
@@ -265,6 +292,10 @@ void add_student(){
 
 //UPDATE EXISTING STUDENT RECORD
 void update_student(){
+    if (student_count == 0){
+        cout << "No student available.\n";
+        return;
+    }
     int index = search_student_by_roll();
 
     if (index == -1) {
@@ -275,7 +306,7 @@ void update_student(){
 
         cout << "Enter student name: ";
         cin.ignore(10000,'\n');
-        cin.getline(name[index],50);
+        input_valid_name(name[index], 50);
     
         cout << "Enter section(A,B,C): ";
         section[index] = input_valid_section();
@@ -364,6 +395,10 @@ void display_average(){
 
 //DISPLAY STUDENT WITH HIGHEST MARKS
 void display_highest(){
+    if (student_count == 0){
+        cout << "No students available.\n";
+        return;
+    }
     int highest = -1;
     int highest_index = 0;
     for (int index = 0; index < student_count; index++){
@@ -378,6 +413,10 @@ void display_highest(){
 
 //DISPLAY STUDENT WITH LOWEST MARKS
 void display_lowest(){
+    if (student_count == 0){
+        cout << "No students available.\n";
+        return;
+    }
     int lowest = 10000;
     int lowest_index = 0; 
     for (int index = 0; index < student_count; index++){
@@ -393,7 +432,7 @@ void display_lowest(){
 //DISPLAY CLASS TOPPER(s) (handles more than 1)
 void display_topper(){
     if (student_count == 0){
-        cout << "No students available.";
+        cout << "No students available.\n";
         return;
     }
     
