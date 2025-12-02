@@ -253,6 +253,10 @@ void calculate_percentage_and_grade(int index){
 
 //ADD NEW STUDENT TO DATABASE
 void add_student(){
+    if (student_count >= 100){
+        cout << "Maximum student count reached";
+        return;
+    }
     int index = student_count;
     
     cout << "Enter student name: ";
@@ -307,6 +311,8 @@ void update_student(){
         cout << "Enter student name: ";
         cin.ignore(10000,'\n');
         input_valid_name(name[index], 50);
+
+        cout << "You cannot change the roll number of the student\n";
     
         cout << "Enter section(A,B,C): ";
         section[index] = input_valid_section();
@@ -621,6 +627,12 @@ void show_menu(){
 
         cout << "\n Enter your choice: ";
         cin >> choice;
+        if (cin.fail()){
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "Invalid choice. Please enter a number: ";
+            continue;
+        }
         
         if (choice == 1){
             add_student();
