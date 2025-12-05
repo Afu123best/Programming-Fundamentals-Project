@@ -9,8 +9,8 @@ GLOBAL ARRAYS (Database stored in arrays)
 -Data stored in parallel arrays so index i corresponds to same student
 */
 char name[100][50]; //Student name max 50 characters
-int roll_num[100]; //Roll Number
-char section[100];  //Section: A, B or C
+string roll_num[100]; //Roll Number
+char section[100];  //Section: A, B or C or A-Z
 int quizzes[100][3]; //3 quiz marks
 int assignments[100][2]; //2 assignment marks
 int midterm[100]; //midterm marks
@@ -79,7 +79,7 @@ int input_int_range(int low, int high){
 }
 
 //ROLL NUMBER ALREADY EXISTS? (helper)
-bool roll_number_exists(int r){
+bool roll_number_exists(string r){
     for (int i = 0; i < student_count; i++){
         if (roll_num[i] == r){
             return true;
@@ -89,9 +89,10 @@ bool roll_number_exists(int r){
 }
 
 //ROLL NUMBER VALID
-int input_valid_roll(){
-    int r;
+string input_valid_roll(){
+    string r;
     while (true){
+        label:
         cin >> r;
         if (cin.fail()){
             cin.clear();
@@ -99,15 +100,17 @@ int input_valid_roll(){
             cout << "Invalid! Enter a valid number: ";
             continue;
         }
-        if (r <= 0){
-            cout << "Roll number must be positive: ";
-            continue;
+        for (int i = 0; i < 4; i++){
+            if (!(r[i] >= '0' && r[i] <= '9')){
+                cout << "Roll number must be digits (not alphabets): ";
+                goto label;
+            }
         }
         if (roll_number_exists(r)){
             cout << "Roll number already exists! Enter another: ";
             continue;
         }
-        if (!(r >= 1000 && r <= 9999)){
+        if (r.length() != 4){
             cout << "Roll number must be 4 digits: ";
             continue;
         }
@@ -120,11 +123,11 @@ char input_valid_section(){
     char s;
     while (true){
         cin >> s;
-        s = toupper(s);
-        if (s == 'A' || s == 'B' || s == 'C'){
+        s = toupper(s); //handles lowercase characters
+        if (s >= 'A' && s <= 'Z'){
             return s;
         }
-        cout << "Invalid section! Enter A, B, or C: ";
+        cout << "Invalid section! Enter (A-Z): ";
     }
 }
 
@@ -216,7 +219,7 @@ int search_student_by_roll() {
         cout << "No students available.\n";
         return -1;
     }
-    int entered_roll_num;
+    string entered_roll_num;
     cout << "Enter roll number: ";
     cin >> entered_roll_num;
 
@@ -266,7 +269,7 @@ void add_student(){
     cout << "Enter student roll number: ";
     roll_num[index] = input_valid_roll();
     
-    cout << "Enter section(A,B,C): ";
+    cout << "Enter section(A-Z): ";
     section[index] = input_valid_section();
     
     cout << "Enter quiz 1 marks(0-10): ";
@@ -314,7 +317,7 @@ void update_student(){
 
         cout << "You cannot change the roll number of the student\n";
     
-        cout << "Enter section(A,B,C): ";
+        cout << "Enter section(A-Z): ";
         section[index] = input_valid_section();
     
         cout << "Enter quiz 1 marks(0-10): ";
@@ -368,7 +371,7 @@ void delete_student(){
             grade[i] = grade[i+1];
         }
         student_count--;
-        cout << "System | Student deleted successfully.";
+        cout << "System | Student deleted successfully.\n";
     }
 }
 
@@ -612,6 +615,7 @@ void load_from_file(){
 void show_menu(){
     int choice = 0;
     while (choice != 12){
+        cout << endl;
         cout << "1.Add New Student\n";
         cout << "2.Update Student\n";
         cout << "3.Delete Student\n";
@@ -695,7 +699,8 @@ int main(){
 //limitation list that i think of while coding (please remove in final version)
 //1. so the arrays are hardcoded to 100 total students. that means this database system can only handle 100 students dynamically
 //2. Each student can have a name with up to 50 characters so if a student is arabic and has a name: Saad Ibn Abdelaziz Ibn Ali Ismael Shik Shak Shok Balla Thein Shawarma Wala bebsi Zyadeh Batata Bdoon Salata Ma3 Ganeenet Bebsi Bardeh Bdoon Thalj Wallak
-//3. all calculations are done in integer for simplicity. so someone can have 89.9999% and still get a B. well too bad lol
+//3. Fixed limitation
+//4. Problem in input validation when entering 4 digits. the roll number array shouldve been a 2D character array or a 1D string array 
 
 
 //what to think about:
