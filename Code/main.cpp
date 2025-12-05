@@ -159,7 +159,7 @@ void display_all_students_tabular(){
         return;
     }
     cout << "----------------------------------------------------------------------------------------------\n";
-    cout << "Name                 Roll  Sec  Q1  Q2  Q3  A1  A2  Mid  Final  Total  %       Grade\n";
+    cout << "Name                Roll  Sec  Q1  Q2  Q3  A1  A2  Mid   Final  Total  %       Grade\n";
     cout << "----------------------------------------------------------------------------------------------\n";
     
     for (int i = 0; i < student_count; i++){
